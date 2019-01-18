@@ -19,7 +19,7 @@ Options:
 
 ## Adding Modules
 Adding modules is quite simple, yet it requires some manual work with imports. This will get improved in the future.
-For now, bear with me and check [example commit]()
+For now, bear with me and check [example commit](https://github.com/janmasarik/low-hanging/commit/e2ebe80a3bb8f7c7e02c73c48e8caaeb847f18c9).
 
 ## Example Module
 ```python
