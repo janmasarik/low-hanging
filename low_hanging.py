@@ -8,13 +8,13 @@ from concurrent.futures import ThreadPoolExecutor
 from requests_html import HTMLSession
 from tqdm import tqdm
 
-from low_hanging.modules import DjangoDebug, PhpInfo
+from low_hanging.modules import DjangoDebug, PhpInfo, PortainerAdmin
 
 
 log = logging.getLogger()
 
 def gather(domains, threads, timeout=5):
-    modules = [DjangoDebug, PhpInfo]
+    modules = [DjangoDebug, PhpInfo, PortainerAdmin]
     session = HTMLSession()
     session.timeout = timeout
     results = defaultdict(list)
