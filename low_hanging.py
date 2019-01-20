@@ -31,20 +31,25 @@ def gather(domains, threads, timeout=5):
                         continue
 
                     results[worker_name].append(result)
-                except Exception:
-                    click.echo("worker {} failed!".format(worker_name), err=True)
+                except Exception as e:
+                    click.echo("{}\nWorker {} failed!".format(e,worker_name), err=True)
 
     return results
 
 @click.command()
-@click.option('-d', '--domains', 'domains_filename', help='List of domains separated by newline')
-@click.option('-t', '--threads', default=50, help='Number of threads with which you want to run')
-def main(domains_filename, threads):
+@click.option('-d', '--domains', 'domains_filename', help='Path to file with list of domains separated by newline.')
+@click.option('-t', '--threads', default=50, help='Number of threads with which you want to run.')
+@click.option('-o', '--output', 'output_file', help='Output files to file in json format.')
+def main(domains_filename, threads, output_file):
     with open(domains_filename) as domains_file:
         domains = domains_file.read().splitlines()
 
     results = gather(domains, threads)
     click.echo(json.dumps(results))
+
+    if output_file:
+        with open(output_file, "w") as f:
+            json.dump(results, f)
 
 
 if __name__ == '__main__':
