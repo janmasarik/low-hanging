@@ -8,5 +8,5 @@ class GitlabExplore(BaseWorker):
         paths = ["explore", "explore/projects"]
         for path in paths:
             r = self.scrape(path)
-            if "No projects found" not in r.text:
+            if "gitlab" in r.text and "No projects found" not in r.text:
                 return r.url
