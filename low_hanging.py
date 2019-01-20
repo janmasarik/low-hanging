@@ -32,7 +32,7 @@ def gather(domains, threads, timeout=5):
 
                     results[worker_name].append(result)
                 except Exception as e:
-                    click.echo("{}\nWorker {} failed!".format(e,worker_name), err=True)
+                    log.debug("{}\nWorker {} failed!".format(e,worker_name))
 
     return results
 
@@ -45,11 +45,11 @@ def main(domains_filename, threads, output_file):
         domains = domains_file.read().splitlines()
 
     results = gather(domains, threads)
-    click.echo(json.dumps(results))
+    click.echo(json.dumps(results, indent=4, sort_keys=True))
 
     if output_file:
         with open(output_file, "w") as f:
-            json.dump(results, f)
+            json.dump(results, f, indent=4, sort_keys=True)
 
 
 if __name__ == '__main__':
