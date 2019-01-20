@@ -9,6 +9,4 @@ RUN \
 
 COPY . /app
 
-USER nobody
-
 ENTRYPOINT ["python",  "low_hanging.py"]
