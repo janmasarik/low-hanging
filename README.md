@@ -1,8 +1,9 @@
 # low-hanging
-Lightweight and extensible horizontal vulnerability scanner. Pass list of domains and check for low hanging fruits.
+`low-hanging` aims to be lightweight and extensible horizontal vulnerability scanner. 
 
-Made to be easily extensible. Adding more checks is just few lines of code with 
-pre-initialized `requests-http` session ()with nice features like JS rendering).
+Just pass list of domains/IPs and `low-hanging` will check for easily detectable vulnerabilities with low false positive rate.
+
+Made to be easily extensible. Adding more checks is just few lines of code with features like JS rendering in your possession thanks to `requests-html`.
 
 Inspired by https://github.com/tomnomnom/meg, but made to be easily pluggable into your fully automated workflow.
 
