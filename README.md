@@ -12,8 +12,10 @@ $ docker run s14ve/low-hanging --help
 Usage: low_hanging.py [OPTIONS]
 
 Options:
-  -d, --domains TEXT     List of domains separated by newline
-  -t, --threads INTEGER  Number of threads with which you want to run
+  -i, --input TEXT       Path to file with list of domains/IPs separated by
+                         newline.
+  -t, --threads INTEGER  Number of threads with which you want to run.
+  -o, --output TEXT      Output files to file in json format.
   --help                 Show this message and exit.
 ``` 
 

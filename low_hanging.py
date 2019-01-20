@@ -37,12 +37,14 @@ def gather(domains, threads, timeout=5):
     return results
 
 @click.command()
-@click.option('-d', '--domains', 'domains_filename', help='Path to file with list of domains separated by newline.')
+@click.option('-i', '--input', 'input_filename', help='Path to file with list of domains/IPs separated by newline.')
 @click.option('-t', '--threads', default=50, help='Number of threads with which you want to run.')
 @click.option('-o', '--output', 'output_file', help='Output files to file in json format.')
-def main(domains_filename, threads, output_file):
-    with open(domains_filename) as domains_file:
-        domains = domains_file.read().splitlines()
+def main(input_filename, threads, output_file):
+    domains = []
+    with open(input_filename) as domains_file:
+        for host in domains_file.read().splitlines():
+            domains.extend([f"http://{host}", f"https://{host}"])
 
     results = gather(domains, threads)
     click.echo(json.dumps(results, indent=4, sort_keys=True))
