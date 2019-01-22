@@ -10,7 +10,7 @@ class BaseWorker:
 
     def __init__(self, domain, session=None):
         self.domain = domain
-        self.session = session or HTMLSession()
+        self.session = session or HTMLSession()  # TODO add default timeout somehow
 
     def __call__(self, *args, **kwargs):
         return self.run(*args, **kwargs)
@@ -19,7 +19,7 @@ class BaseWorker:
         raise NotImplementedError
 
     def scrape(self, path, method="GET"):
-        return self.session.request(method, urljoin(self.domain, path))
+        return self.session.request(method, urljoin(self.domain, path), timeout=5)
 
     @staticmethod
     def random_string(length=10):

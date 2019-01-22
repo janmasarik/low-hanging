@@ -11,13 +11,13 @@ from tqdm import tqdm
 
 from low_hanging.modules import DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore
 
-log = logging.getLogger(__name__)
+log = logging.getLogger()
 click_log.basic_config(log)
 
-def gather(domains, threads, timeout=5):
+
+def gather(domains, threads):
     enabled_modules = [DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore]
     session = HTMLSession()
-    session.timeout = timeout
     results = defaultdict(list)
 
     with ThreadPoolExecutor(max_workers=threads) as executor:
@@ -39,10 +39,10 @@ def gather(domains, threads, timeout=5):
 
 @click.command()
 @click.option('-i', '--input', 'input_filename', help='Path to file with list of domains/IPs separated by newline.')
-@click.option('-t', '--threads', default=50, help='Number of threads with which you want to run.')
 @click.option('-o', '--output', 'output_file', help='Output files to file in json format.')
-def main(input_filename, threads, output_file):
+@click.option('-t', '--threads', default=50, help='Number of threads with which you want to run.')
 @click_log.simple_verbosity_option(log)
+def main(input_filename, threads, output_file):
     domains = []
     with open(input_filename) as domains_file:
         for host in domains_file.read().splitlines():
