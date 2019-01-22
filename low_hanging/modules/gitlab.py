@@ -1,3 +1,4 @@
+import contextlib
 from low_hanging.base_worker import BaseWorker
 
 
@@ -7,6 +8,7 @@ class GitlabExplore(BaseWorker):
     def run(self):
         paths = ["explore", "explore/projects"]
         for path in paths:
-            r = self.scrape(path)
-            if "gitlab" in r.text and "No projects found" not in r.text:
-                return r.url
+            with contextlib.suppress(Exception):
+                r = self.scrape(path)
+                if "gitlab" in r.text and "No projects found" not in r.text:
+                    return r.url
