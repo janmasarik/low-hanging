@@ -1,5 +1,6 @@
 import concurrent.futures
 import click
+import click_log
 import json
 import logging
 
@@ -10,8 +11,8 @@ from tqdm import tqdm
 
 from low_hanging.modules import DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore
 
-
-log = logging.getLogger()
+log = logging.getLogger(__name__)
+click_log.basic_config(log)
 
 def gather(domains, threads, timeout=5):
     enabled_modules = [DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore]
@@ -41,6 +42,7 @@ def gather(domains, threads, timeout=5):
 @click.option('-t', '--threads', default=50, help='Number of threads with which you want to run.')
 @click.option('-o', '--output', 'output_file', help='Output files to file in json format.')
 def main(input_filename, threads, output_file):
+@click_log.simple_verbosity_option(log)
     domains = []
     with open(input_filename) as domains_file:
         for host in domains_file.read().splitlines():
