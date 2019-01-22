@@ -9,14 +9,14 @@ from concurrent.futures import ThreadPoolExecutor
 from requests_html import HTMLSession
 from tqdm import tqdm
 
-from low_hanging.modules import DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore
+from low_hanging.modules import DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore, MinioDefaultCreds
 
 log = logging.getLogger()
 click_log.basic_config(log)
 
 
 def gather(domains, threads):
-    enabled_modules = [DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore]
+    enabled_modules = [DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore, MinioDefaultCreds]
     session = HTMLSession()
     results = defaultdict(list)
 
