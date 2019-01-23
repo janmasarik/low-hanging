@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 from requests_html import HTMLSession
 from tqdm import tqdm
 
-from low_hanging.modules import DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore, MinioDefaultCreds
+from low_hanging.modules import DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore, MinioDefaultCreds, ArgoNoAuth
 
 log = logging.getLogger()
 click_log.basic_config(log)
@@ -18,7 +18,7 @@ click_log.basic_config(log)
 requests.packages.urllib3.disable_warnings()
 
 def gather(domains, threads):
-    enabled_modules = [DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore, MinioDefaultCreds]
+    enabled_modules = [DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore, MinioDefaultCreds, ArgoNoAuth]
     session = HTMLSession()
     session.verify = False
     results = defaultdict(list)
@@ -27,7 +27,7 @@ def gather(domains, threads):
         for worker in tqdm(enabled_modules, desc="modules"):
 
             future_to_name = {executor.submit(worker(url, session)): worker.name for url in domains}
-            for future in tqdm(concurrent.futures.as_completed(future_to_name), desc="requests", unit=" requests"):
+            for future in tqdm(concurrent.futures.as_completed(future_to_name), total=len(future_to_name), unit=" requests"):
                 worker_name = future_to_name[future]
                 try:
                     result = future.result()

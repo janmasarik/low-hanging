@@ -18,8 +18,9 @@ class BaseWorker:
     def run(self):
         raise NotImplementedError
 
-    def scrape(self, path, method="GET"):
-        return self.session.request(method, urljoin(self.domain, path), timeout=5)
+    def scrape(self, path, method="GET", port=None):
+        domain = f"{self.domain}:{port}" if port else self.domain
+        return self.session.request(method, urljoin(domain, path), timeout=5)
 
     @staticmethod
     def random_string(length=10):
