@@ -20,6 +20,7 @@ requests.packages.urllib3.disable_warnings()
 def gather(domains, threads):
     enabled_modules = [DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore, MinioDefaultCreds]
     session = HTMLSession()
+    session.verify = False
     results = defaultdict(list)
 
     with ThreadPoolExecutor(max_workers=threads) as executor:
