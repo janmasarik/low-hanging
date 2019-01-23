@@ -55,7 +55,7 @@ def main(input_filename, threads, output_file):
 
     if output_file:
         with open(output_file, "w") as f:
-            json.dump(results, f, indent=4, sort_keys=True)
+            json.dump(results, f, sort_keys=True)
 
 
 if __name__ == '__main__':
