@@ -3,6 +3,7 @@ import click
 import click_log
 import json
 import logging
+import requests
 
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
@@ -14,6 +15,7 @@ from low_hanging.modules import DjangoDebug, PhpInfo, PortainerAdmin, GitlabExpl
 log = logging.getLogger()
 click_log.basic_config(log)
 
+requests.packages.urllib3.disable_warnings()
 
 def gather(domains, threads):
     enabled_modules = [DjangoDebug, PhpInfo, PortainerAdmin, GitlabExplore, MinioDefaultCreds]
