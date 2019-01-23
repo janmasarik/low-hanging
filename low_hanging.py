@@ -23,10 +23,10 @@ def gather(domains, threads):
     results = defaultdict(list)
 
     with ThreadPoolExecutor(max_workers=threads) as executor:
-        for worker in tqdm(enabled_modules):
+        for worker in tqdm(enabled_modules, desc="modules"):
 
             future_to_name = {executor.submit(worker(url, session)): worker.name for url in domains}
-            for future in concurrent.futures.as_completed(future_to_name):
+            for future in tqdm(concurrent.futures.as_completed(future_to_name), desc="requests", unit=" requests"):
                 worker_name = future_to_name[future]
                 try:
                     result = future.result()
